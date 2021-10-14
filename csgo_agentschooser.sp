@@ -15,10 +15,10 @@
  * this program. If not, see http://www.gnu.org/licenses/.
  */
 
-#include	<sdktools>
-#include	<sdkhooks>
-#include	<cstrike>
-#include	<clientprefs>
+#include <sdkhooks>
+#include <sdktools>
+#include <cstrike>
+#include <clientprefs>
 
 #pragma		semicolon	1
 #pragma		newdecls	required
@@ -31,97 +31,97 @@ Handle	g_hTimer[MAXPLAYERS+1] = null;
 // Valve Agents list by category and team
 char CTDistinguished[][][] =
 {
-	{"Primeiro Tenente | Brazilian 1st Battalion",			"models/player/custom_player/legacy/ctm_st6_variantn.mdl"},
-	{"D Squadron Officer | NZSAS",							"models/player/custom_player/legacy/ctm_sas_variantg.mdl"},
-	{"Aspirant | Gendarmerie Nationale",					"models/player/custom_player/legacy/ctm_gendarmerie_variantd.mdl"},
-	{"Seal Team 6 Soldier | NSWC SEAL",						"models/player/custom_player/legacy/ctm_st6_variante.mdl"},
-	{"3rd Commando Company | KSK",							"models/player/custom_player/legacy/ctm_st6_variantk.mdl"},
-	{"Operator | FBI SWAT",									"models/player/custom_player/legacy/ctm_fbi_variantf.mdl"},
-	{"B Squadron Officer | SAS",							"models/player/custom_player/legacy/ctm_sas_variantf.mdl"},
-	{"Chem-Haz Specialist | SWAT",							"models/player/custom_player/legacy/ctm_swat_variantj.mdl"},
-	{"Bio-Haz Specialist | SWAT",							"models/player/custom_player/legacy/ctm_swat_varianth.mdl"},
+	{"陆军中尉普里米罗 | 巴西第一营（新）",			"models/player/custom_player/legacy/ctm_st6_variantn.mdl"},
+	{"D中队军官 | 新西兰特种空勤团（新）",							"models/player/custom_player/legacy/ctm_sas_variantg.mdl"},
+	{"准尉 | 法国宪兵特勤队（新）",					"models/player/custom_player/legacy/ctm_gendarmerie_variantd.mdl"},
+	{"海豹部队第六分队士兵 | 海军水面战中心海豹部队",						"models/player/custom_player/legacy/ctm_st6_variante.mdl"},
+	{"第三特种兵连 | 德国特种部队突击队",							"models/player/custom_player/legacy/ctm_st6_variantk.mdl"},
+	{"特种兵 | 联邦调查局（FBI）特警",									"models/player/custom_player/legacy/ctm_fbi_variantf.mdl"},
+	{"B Squadron指挥官 | 英国空军特别部队",							"models/player/custom_player/legacy/ctm_sas_variantf.mdl"},
+	{"化学防害专家 | 特警",							"models/player/custom_player/legacy/ctm_swat_variantj.mdl"},
+	{"生物防害专家 | 特警",							"models/player/custom_player/legacy/ctm_swat_varianth.mdl"},
 };
 
 char TDistinguished[][][] =
 {
-	{"Trapper Aggressor | Guerrilla Warfare",				"models/player/custom_player/legacy/tm_jungle_raider_variantf.mdl"},
-	{"Mr. Muhlik | Elite Crew",								"models/player/custom_player/legacy/tm_leet_variantj.mdl"},
-	{"Enforcer | Phoenix",									"models/player/custom_player/legacy/tm_phoenix_variantf.mdl"},
-	{"Soldier | Phoenix",									"models/player/custom_player/legacy/tm_phoenix_varianth.mdl"},
-	{"Ground Rebel  | Elite Crew",							"models/player/custom_player/legacy/tm_leet_variantg.mdl"},
-	{"Street Soldier | Phoenix",							"models/player/custom_player/legacy/tm_phoenix_varianti.mdl"},
-	{"Dragomir | Sabre Footsoldier",						"models/player/custom_player/legacy/tm_balkan_variantl.mdl"},
+	{"捕兽者（挑衅者） | 游击队（新）",				"models/player/custom_player/legacy/tm_jungle_raider_variantf.mdl"},
+	{"精英Muhlik先生 | 精锐分子（新）",								"models/player/custom_player/legacy/tm_leet_variantj.mdl"},
+	{"执行者 | 凤凰战士",									"models/player/custom_player/legacy/tm_phoenix_variantf.mdl"},
+	{"枪手 | 凤凰战士",									"models/player/custom_player/legacy/tm_phoenix_varianth.mdl"},
+	{"地面叛军  | 精锐分子",							"models/player/custom_player/legacy/tm_leet_variantg.mdl"},
+	{"街头士兵 | 凤凰战士",							"models/player/custom_player/legacy/tm_phoenix_varianti.mdl"},
+	{"德拉戈米尔 | 军刀勇士",						"models/player/custom_player/legacy/tm_balkan_variantl.mdl"},
 };
 
 char CTExceptional[][][] =
 {
-	{"Officer Jacques Beltram | Gendarmerie Nationale",		"models/player/custom_player/legacy/ctm_gendarmerie_variante.mdl"},
-	{"Lieutenant 'Tree Hugger' Farlow | SWAT",				"models/player/custom_player/legacy/ctm_swat_variantk.mdl"},
-	{"Sous-Lieutenant Medic | Gendarmerie Nationale",		"models/player/custom_player/legacy/ctm_gendarmerie_varianta.mdl"},
-	{"Markus Delrow | FBI",									"models/player/custom_player/legacy/ctm_fbi_variantg.mdl"},
-	{"Buckshot | NSWC SEAL",								"models/player/custom_player/legacy/ctm_st6_variantg.mdl"},
-	{"John 'Van Healen' Kask | SWAT",						"models/player/custom_player/legacy/ctm_swat_variantg.mdl"},
-	{"Sergeant Bombson | SWAT",								"models/player/custom_player/legacy/ctm_swat_varianti.mdl"},
-	{"'Blueberries' Buckshot | NSWC SEAL",					"models/player/custom_player/legacy/ctm_st6_variantj.mdl"},
+	{"军官雅克-贝尔特朗 | 法国宪兵特勤队（新）",		"models/player/custom_player/legacy/ctm_gendarmerie_variante.mdl"},
+	{"中尉法洛（抱树人） | 特警（新）",				"models/player/custom_player/legacy/ctm_swat_variantk.mdl"},
+	{"军医少尉 | 法国宪兵特勤队（新）",		"models/player/custom_player/legacy/ctm_gendarmerie_varianta.mdl"},
+	{"马库斯德隆 | 联邦调查局（FBI）人质营救队",					"models/player/custom_player/legacy/ctm_fbi_variantg.mdl"},
+	{"铅弹 | 海军水面战中心海豹部队",								"models/player/custom_player/legacy/ctm_st6_variantg.mdl"},
+	{"约翰 '范海伦' 卡斯克 | 特警",						"models/player/custom_player/legacy/ctm_swat_variantg.mdl"},
+	{"军士长炸弹森 | 特警",								"models/player/custom_player/legacy/ctm_swat_varianti.mdl"},
+	{"'蓝莓' 铅弹 | 海军水面战中心海豹部队",					"models/player/custom_player/legacy/ctm_st6_variantj.mdl"},
 };
 
 char TExceptional[][][] =
 {
-	{"Col. Mangos Dabisi | Guerrilla Warfare",				"models/player/custom_player/legacy/tm_jungle_raider_variantd.mdl"},
-	{"Trapper | Guerrilla Warfare",							"models/player/custom_player/legacy/tm_jungle_raider_variantf2.mdl"},
-	{"Maximus | Sabre",										"models/player/custom_player/legacy/tm_balkan_varianti.mdl"},
-	{"Osiris | Elite Crew",									"models/player/custom_player/legacy/tm_leet_varianth.mdl"},
-	{"Slingshot | Phoenix",									"models/player/custom_player/legacy/tm_phoenix_variantg.mdl"},
-	{"Dragomir | Sabre",									"models/player/custom_player/legacy/tm_balkan_variantf.mdl"},
-	{"Getaway Sally | The Professionals",					"models/player/custom_player/legacy/tm_professional_varj.mdl"},
-	{"Little Kev | The Professionals",						"models/player/custom_player/legacy/tm_professional_varh.mdl"},
+	{"上校曼戈斯-达比西 | 游击队（新）",				"models/player/custom_player/legacy/tm_jungle_raider_variantd.mdl"},
+	{"捕兽者 | 游击队（新）",							"models/player/custom_player/legacy/tm_jungle_raider_variantf2.mdl"},
+	{"马克西姆斯 | 军刀",										"models/player/custom_player/legacy/tm_balkan_varianti.mdl"},
+	{"Osiris | 精锐分子",									"models/player/custom_player/legacy/tm_leet_varianth.mdl"},
+	{"弹弓 | 凤凰展示",									"models/player/custom_player/legacy/tm_phoenix_variantg.mdl"},
+	{"德拉戈米尔 | 军刀",									"models/player/custom_player/legacy/tm_balkan_variantf.mdl"},
+	{"土逃的萨丽 '孙俪 | 专业人士",					"models/player/custom_player/legacy/tm_professional_varj.mdl"},
+	{"小凯夫 | 专业人士",						"models/player/custom_player/legacy/tm_professional_varh.mdl"},
 };
 
 char CTSuperior[][][] =
 {
-	{"Chem-Haz Capitaine | Gendarmerie Nationale",			"models/player/custom_player/legacy/ctm_gendarmerie_variantb.mdl"},
-	{"Lieutenant Rex Krikey | SEAL Frogman",				"models/player/custom_player/legacy/ctm_diver_variantc.mdl"},
-	{"Michael Syfers | FBI Sniper",							"models/player/custom_player/legacy/ctm_fbi_varianth.mdl"},
-	{"'Two Times' McCoy | USAF TACP",						"models/player/custom_player/legacy/ctm_st6_variantm.mdl"},
-	{"1st Lieutenant Farlow | SWAT",						"models/player/custom_player/legacy/ctm_swat_variantf.mdl"},
-	{"'Two Times' McCoy | TACP Cavalry",					"models/player/custom_player/legacy/ctm_st6_variantl.mdl"},
+	{"化学防害上尉 | 法国宪兵特勤队（新）",			"models/player/custom_player/legacy/ctm_gendarmerie_variantb.mdl"},
+	{"中尉雷克斯-克里奇 | 海豹蛙人（新）",				"models/player/custom_player/legacy/ctm_diver_variantc.mdl"},
+	{"迈克赛弗斯 | 联邦调查局（FBI）狙击手",							"models/player/custom_player/legacy/ctm_fbi_varianth.mdl"},
+	{"'两次' 麦考伊 | 美国空军战术空中管制部队",						"models/player/custom_player/legacy/ctm_st6_variantm.mdl"},
+	{"第一中尉法洛 ' 蔡明 | 特警",						"models/player/custom_player/legacy/ctm_swat_variantf.mdl"},
+	{"'两次' 麦考伊 | 战术空中管制部队装甲兵",					"models/player/custom_player/legacy/ctm_st6_variantl.mdl"},
 };
 
 char TSuperior[][][] =
 {
-	{"Bloody Darryl The Strapped | The Professionals",		"models/player/custom_player/legacy/tm_professional_varf5.mdl"},
-	{"Elite Trapper Solman | Guerrilla Warfare",			"models/player/custom_player/legacy/tm_jungle_raider_varianta.mdl"},
-	{"Arno The Overgrown | Guerrilla Warfare",				"models/player/custom_player/legacy/tm_jungle_raider_variantc.mdl"},
-	{"Blackwolf | Sabre",									"models/player/custom_player/legacy/tm_balkan_variantj.mdl"},
-	{"Prof. Shahmat | Elite Crew",							"models/player/custom_player/legacy/tm_leet_varianti.mdl"},
-	{"Rezan The Ready | Sabre",								"models/player/custom_player/legacy/tm_balkan_variantg.mdl"},
-	{"Number K | The Professionals",						"models/player/custom_player/legacy/tm_professional_vari.mdl"},
-	{"Safecracker Voltzmann | The Professionals",			"models/player/custom_player/legacy/tm_professional_varg.mdl"},
-	{"Rezan the Redshirt | Sabre",							"models/player/custom_player/legacy/tm_balkan_variantk.mdl"},
+	{"残酷的达里尔爵士（穷鬼） | 专业人士（新）",		"models/player/custom_player/legacy/tm_professional_varf5.mdl"},
+	{"精英捕兽者索尔曼 | 游击队（新）",			"models/player/custom_player/legacy/tm_jungle_raider_varianta.mdl"},
+	{"亚诺（野草） | 游击队（新）",				"models/player/custom_player/legacy/tm_jungle_raider_variantc.mdl"},
+	{"黑狼 | 军刀",									"models/player/custom_player/legacy/tm_balkan_variantj.mdl"},
+	{"Shahmat教授 | 精锐分子",							"models/player/custom_player/legacy/tm_leet_varianti.mdl"},
+	{"准备就绪的列赞 | 军刀",								"models/player/custom_player/legacy/tm_balkan_variantg.mdl"},
+	{"老K | 专业人士（新）",						"models/player/custom_player/legacy/tm_professional_vari.mdl"},
+	{"飞贼波兹曼 | 专业人士",			"models/player/custom_player/legacy/tm_professional_varg.mdl"},
+	{"红衫列赞 | 军刀",							"models/player/custom_player/legacy/tm_balkan_variantk.mdl"},
 };
 
 char CTMaster[][][] =
 {
-	{"Chef d'Escadron Rouchard | Gendarmerie Nationale",	"models/player/custom_player/legacy/ctm_gendarmerie_variantc.mdl"},
-	{"Cmdr. Frank 'Wet Sox' Baroud | SEAL Frogman",			"models/player/custom_player/legacy/ctm_diver_variantb.mdl"},
-	{"Cmdr. Davida 'Goggles' Fernandez | SEAL Frogman",		"models/player/custom_player/legacy/ctm_diver_varianta.mdl"},
-	{"Lt. Commander Ricksaw | NSWC SEAL",					"models/player/custom_player/legacy/ctm_st6_varianti.mdl"},
-	{"Special Agent Ava | FBI",								"models/player/custom_player/legacy/ctm_fbi_variantb.mdl"},
-	{"Cmdr. Mae 'Dead Cold' Jamison | SWAT",				"models/player/custom_player/legacy/ctm_swat_variante.mdl"},
+	{"中队长鲁沙尔-勒库托 | 法国宪兵特勤队（新）",	"models/player/custom_player/legacy/ctm_gendarmerie_variantc.mdl"},
+	{"指挥官弗兰克-巴鲁德（湿袜） | 海豹蛙人（新）",			"models/player/custom_player/legacy/ctm_diver_variantb.mdl"},
+	{"指挥官黛维达-费尔南德斯（护目镜） | 海豹蛙人（新）",		"models/player/custom_player/legacy/ctm_diver_varianta.mdl"},
+	{"陆军少尉长官里克索尔 | 海军水面战中心海豹部队",					"models/player/custom_player/legacy/ctm_st6_varianti.mdl"},
+	{"骚娘子Ava特工 | 联邦调查局（FBI）",								"models/player/custom_player/legacy/ctm_fbi_variantb.mdl"},
+	{"马冬梅 '极寒' 贾米森 | 特警",				"models/player/custom_player/legacy/ctm_swat_variante.mdl"},
 };
 
 char TMaster[][][] =
 {
-	{"Vypa Sista of the Revolution | Guerrilla Warfare",	"models/player/custom_player/legacy/tm_jungle_raider_variante.mdl"},
-	{"'Medium Rare' Crasswater | Guerrilla Warfare",		"models/player/custom_player/legacy/tm_jungle_raider_variantb2.mdl"},
-	{"Crasswater The Forgotten | Guerrilla Warfare",		"models/player/custom_player/legacy/tm_jungle_raider_variantb.mdl"},
-	{"'The Doctor' Romanov | Sabre",						"models/player/custom_player/legacy/tm_balkan_varianth.mdl"},
-	{"The Elite Mr. Muhlik | Elite Crew",					"models/player/custom_player/legacy/tm_leet_variantf.mdl"},
-	{"Sir Bloody Miami Darryl | The Professionals",			"models/player/custom_player/legacy/tm_professional_varf.mdl"},
-	{"Sir Bloody Silent Darryl | The Professionals",		"models/player/custom_player/legacy/tm_professional_varf1.mdl"},
-	{"Sir Bloody Skullhead Darryl | The Professionals",		"models/player/custom_player/legacy/tm_professional_varf2.mdl"},
-	{"Sir Bloody Darryl Royale | The Professionals",		"models/player/custom_player/legacy/tm_professional_varf3.mdl"},
-	{"Sir Bloody Loudmouth Darryl | The Professionals",		"models/player/custom_player/legacy/tm_professional_varf4.mdl"},
+	{"薇帕姐（革新派） | 游击队（新）",	"models/player/custom_player/legacy/tm_jungle_raider_variante.mdl"},
+	{"克拉斯沃特（三分熟） | 游击队（新）",		"models/player/custom_player/legacy/tm_jungle_raider_variantb2.mdl"},
+	{"遗忘者克拉斯沃特 | 游击队（新）",		"models/player/custom_player/legacy/tm_jungle_raider_variantb.mdl"},
+	{"'医生' 罗曼诺夫 | 军刀",						"models/player/custom_player/legacy/tm_balkan_varianth.mdl"},
+	{"精英Muhlik先生 | 精锐分子",					"models/player/custom_player/legacy/tm_leet_variantf.mdl"},
+	{"残酷的达里尔爵士（迈阿密） | 专业人士",			"models/player/custom_player/legacy/tm_professional_varf.mdl"},
+	{"残酷的达里尔爵士（沉默） | 专业人士",		"models/player/custom_player/legacy/tm_professional_varf1.mdl"},
+	{"残酷的达里尔爵士（头盖骨） | 专业人士",		"models/player/custom_player/legacy/tm_professional_varf2.mdl"},
+	{"残酷的达里尔爵士（皇家） | 专业人士",		"models/player/custom_player/legacy/tm_professional_varf3.mdl"},
+	{"残酷的达里尔爵士（恬噪） | 专业人士",		"models/player/custom_player/legacy/tm_professional_varf4.mdl"},
 };
 
 #define		DATA	"1.2.0"
@@ -412,10 +412,10 @@ Action Command_Main(int client, int args)
 {
 	Menu menu = new Menu(SelectTeam, MenuAction_Select  | MenuAction_End);
 	
-	menu.SetTitle("Choose Agents Team:");
+	menu.SetTitle("选择人物阵营（新增：★ 激流大行动人物）:");
 	
-	menu.AddItem("", "Counter-Terrorist Team");
-	menu.AddItem("", "Terrorist Team");
+	menu.AddItem("", "反恐精英 Counter-Terrorist");
+	menu.AddItem("", "恐怖分子 Terrorist");
 	menu.ExitButton = true;
 	menu.Display(client, MENU_TIME_FOREVER);
 	
@@ -448,13 +448,13 @@ void OpenAgentsMenu(int client)
 {
 	Menu menu = new Menu(SelectType, MenuAction_Select  | MenuAction_End);
 
-	menu.SetTitle("Choose Agents type:");
+	menu.SetTitle("选择人物类型:");
 	
-	menu.AddItem("", "Use Default Skins");
-	menu.AddItem("", "Distinguished Agents");
-	menu.AddItem("", "Exceptional Agents");
-	menu.AddItem("", "Superior Agents");
-	menu.AddItem("", "Master Agents");
+	menu.AddItem("", "★ 默认皮肤");
+	menu.AddItem("", "★ 高级探员");
+	menu.AddItem("", "★ 卓越级探员");
+	menu.AddItem("", "★ 非凡级探员");
+	menu.AddItem("", "★ 大师级探员");
 	
 	//SetMenuPagination(menu, MENU_NO_PAGINATION);
 	
@@ -479,7 +479,7 @@ int SelectType(Menu menu, MenuAction action, int client, int selection)
 					strcopy(g_ctAgent[client], 128, "");
 					strcopy(g_tAgent[client], 128, "");
 					
-					PrintToChat(client, "You dont use a agent model now.");
+					PrintToChat(client, "[我为C狂]你现在没有使用探员皮肤了.");
 					
 					OpenAgentsMenu(client);
 				}
@@ -625,7 +625,7 @@ int AgentChoosed(Menu menu, MenuAction action, any client, int selection)
 				case	CS_TEAM_T:	strcopy(g_tAgent[client], 128, model);
 			}
 			
-			PrintToChat(client, cv_instant.BoolValue ? "Agent model choosed!":"Agent model choosed! you will have it in the next spawn.");
+			PrintToChat(client, cv_instant.BoolValue ? "[我为C狂]探员皮肤应用成功，立即生效.":"[我为C狂]探员皮肤应用成功，将在下回合生效.");
 			
 			switch(g_iCategory[client])
 			{
@@ -643,7 +643,7 @@ int AgentChoosed(Menu menu, MenuAction action, any client, int selection)
 					GetClientModel(client, dmodel, sizeof(dmodel));
 					if(StrContains(dmodel, "models/player/custom_player/legacy/") == -1)
 					{
-						PrintToChat(client, "You already have a custom player skin, remove your custom player skin for use a agent.");
+						PrintToChat(client, "[我为C狂]你已经有自定义人物了，移除自定义人物才能使用探员皮肤.");
 						return;
 					}
 				}
@@ -729,7 +729,7 @@ Action Timer_ApplySkin(Handle timer, int id)
 		GetClientModel(client, dmodel, sizeof(dmodel));
 		if(StrContains(dmodel, "models/player/custom_player/legacy/") == -1)
 		{
-			PrintToChat(client, "You already have a custom player skin, remove your custom player skin for use a agent.");
+			PrintToChat(client, "[我为C狂]你已经有自定义人物了，移除自定义人物才能使用探员皮肤.");
 			return;
 		}
 	}
